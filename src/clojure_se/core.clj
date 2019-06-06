@@ -1,6 +1,6 @@
 ;
 ;  Demonstrates how to start a Helidon server and implement the handlers in Clojure
-;  Thanks for Carcigenicate
+;  Thanks to Carcigenicate for assistance
 ;
 (ns clojure-se.core
   (:gen-class)
