@@ -7,6 +7,7 @@
   (:import io.helidon.webserver.Routing
            io.helidon.webserver.Routing$Builder
            io.helidon.webserver.Handler
+           io.helidon.webserver.ServerConfiguration
            io.helidon.webserver.ServerRequest
            io.helidon.webserver.ServerResponse
            io.helidon.webserver.WebServer))
@@ -20,7 +21,8 @@
   ;
   (let [handler (reify io.helidon.webserver.Handler
                   (^void accept [this ^ServerRequest req, ^ServerResponse res]
-                    (.send res "hello")))
+                    (println "handled a request")
+                    (.send res (str "hello " (.as (.content req) String)))))
 
         ; 
         ;  Now we can create the routing and add each handler using the appropriate
@@ -31,7 +33,17 @@
         ;
         builder (Routing/builder)
         routing (.any builder (into-array Handler [handler]))
-        server (WebServer/create routing)]
+
+        ;
+        ;  Create the server configuration
+        ;
+        config-builder (ServerConfiguration/builder)
+        config (.port config-builder 8080)
+
+        ;
+        ;  Create the server
+        ;
+        server (WebServer/create config routing)]
 
     ;
     ;  Now we can start the server
