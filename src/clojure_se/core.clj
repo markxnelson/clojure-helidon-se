@@ -22,7 +22,7 @@
   (let [handler (reify io.helidon.webserver.Handler
                   (^void accept [this ^ServerRequest req, ^ServerResponse res]
                     (println "handled a request")
-                    (.send res (str "hello " (.as (.content req) String)))))
+                    (.send res (str "hello " (.param (.path req) "name")))))
 
         ; 
         ;  Now we can create the routing and add each handler using the appropriate
@@ -32,7 +32,7 @@
         ;  varargs
         ;
         builder (Routing/builder)
-        routing (.any builder (into-array Handler [handler]))
+        routing (.get builder "/{name}" (into-array Handler [handler]))
 
         ;
         ;  Create the server configuration
