@@ -17,8 +17,8 @@ java \
   -jar target/uberjar/clojure-se-0.1.0-SNAPSHOT-standalone.jar &
 PID=$!
 
-status 'Make a few client requests...'
 sleep 4
+status 'Make a few client requests...'
 curl http://localhost:8080/bob
 curl http://localhost:8080/dave
 sleep 4
