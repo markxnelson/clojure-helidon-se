@@ -12,10 +12,11 @@ lein uberjar
 
 status 'Run the application with tracing agent...'
 rm -rf config-dir trace-file.json
-java \
+sh -c 'java \
   -agentlib:native-image-agent=trace-output=$PWD/trace-file.json \
-  -jar target/uberjar/clojure-se-0.1.0-SNAPSHOT-standalone.jar &
+  -jar target/uberjar/clojure-se-0.1.0-SNAPSHOT-standalone.jar' & 
 PID=$!
+echo "PID=$PID"
 
 sleep 4
 status 'Make a few client requests...'
@@ -24,7 +25,10 @@ curl http://localhost:8080/dave
 sleep 4
 
 status 'Kill the application...'
-kill -9 $PID
+sleep 4
+ps | grep $PID
+trap "kill $PID" INT
+wait
 
 status 'Create native image configuration files...'
 native-image-configure \
