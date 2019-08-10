@@ -40,5 +40,7 @@ status 'Build native image...'
 native-image \
   --allow-incomplete-classpath \
   --no-fallback \
+  --report-unsupported-elements-at-runtime \
+  -H:+ReportExceptionStackTraces \
   -H:ConfigurationFileDirectories=$PWD/config-dir \
   -jar target/uberjar/clojure-se-0.1.0-SNAPSHOT-standalone.jar 
